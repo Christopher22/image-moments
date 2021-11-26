@@ -1,0 +1,7 @@
+[package]
+name = "image-moments"
+version = "0.1.0"
+edition = "2021"
+authors = ["Christopher Gundler <christopher@gundler.de>"]
+
+[dependencies]
