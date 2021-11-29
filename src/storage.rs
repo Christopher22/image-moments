@@ -1,3 +1,5 @@
+use crate::Scalar;
+
 /// An efficient storage to access the required coefficients.
 pub trait Storage<T> {
     /// The "order" of the storage.
@@ -5,6 +7,9 @@ pub trait Storage<T> {
 
     /// The required number of elements at the stack.
     const SIZE: usize;
+
+    /// Create an instance of this storage with all values set to 0.
+    fn zeros() -> Self;
 
     /// Access the element at a specific 0-based position.
     /// I + J must be <= Self::ORDER
@@ -27,9 +32,14 @@ const fn calculate_index<const I: usize, const J: usize, const ORDER: usize>() -
 /// Implement the Storage crate for some meaningful values.
 macro_rules! impl_storage_for_order {
     ( $order:expr ) => {
-        impl<T> Storage<T> for [T; calculate_space::<$order>()] {
+        impl<T: Scalar> Storage<T> for [T; calculate_space::<$order>()] {
             const ORDER: usize = $order;
             const SIZE: usize = calculate_space::<$order>();
+
+            #[inline(always)]
+            fn zeros() -> Self {
+                [T::ZERO; calculate_space::<$order>()]
+            }
 
             #[inline(always)]
             fn get<const I: usize, const J: usize>(&self) -> &T {
@@ -51,9 +61,7 @@ impl_storage_for_order!(3);
 
 #[cfg(test)]
 mod tests {
-    use crate::storage::{calculate_index, calculate_space};
-
-    use super::Storage;
+    use crate::storage::{calculate_index, calculate_space, Storage};
 
     #[test]
     fn test_index() {
@@ -87,9 +95,9 @@ mod tests {
 
     #[test]
     fn test_access() {
-        let mut data = [0; calculate_space::<0>()];
-        assert_eq!(*data.get::<0, 0>(), 0);
-        *data.get_mut::<0, 0>() = 42;
-        assert_eq!(*data.get::<0, 0>(), 42);
+        let mut data = [0.0; calculate_space::<0>()];
+        assert_eq!(*data.get::<0, 0>(), 0.0);
+        *data.get_mut::<0, 0>() = 42.0;
+        assert_eq!(*data.get::<0, 0>(), 42.0);
     }
 }
