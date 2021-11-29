@@ -1,7 +1,7 @@
 use crate::Scalar;
 
 /// An efficient storage to access the required coefficients.
-pub trait Storage<T> {
+pub trait Storage<T: Scalar> {
     /// The "order" of the storage.
     const ORDER: usize;
 
@@ -13,7 +13,7 @@ pub trait Storage<T> {
 
     /// Access the element at a specific 0-based position.
     /// I + J must be <= Self::ORDER
-    fn get<const I: usize, const J: usize>(&self) -> &T;
+    fn get<const I: usize, const J: usize>(&self) -> T;
 
     /// Access the element at a specific 0-based position mutably.
     /// I + J must be <= Self::ORDER
@@ -42,8 +42,8 @@ macro_rules! impl_storage_for_order {
             }
 
             #[inline(always)]
-            fn get<const I: usize, const J: usize>(&self) -> &T {
-                &self[calculate_index::<I, J, $order>()]
+            fn get<const I: usize, const J: usize>(&self) -> T {
+                self[calculate_index::<I, J, $order>()]
             }
 
             #[inline(always)]
@@ -96,8 +96,8 @@ mod tests {
     #[test]
     fn test_access() {
         let mut data = [0.0; calculate_space::<0>()];
-        assert_eq!(*data.get::<0, 0>(), 0.0);
+        assert_eq!(data.get::<0, 0>(), 0.0);
         *data.get_mut::<0, 0>() = 42.0;
-        assert_eq!(*data.get::<0, 0>(), 42.0);
+        assert_eq!(data.get::<0, 0>(), 42.0);
     }
 }
