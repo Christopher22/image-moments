@@ -14,9 +14,11 @@
 /// The actual implementation details.
 mod implementation;
 mod index;
+mod moments;
 mod order;
 mod primitives;
 
 pub use self::index::{Index, SupportedIndex};
+pub use self::moments::Moments;
 pub use self::order::{Order, SupportedOrder};
 pub use self::primitives::{Point, Scalar};

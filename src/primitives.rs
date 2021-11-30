@@ -2,7 +2,8 @@ use std::ops::{Add, AddAssign, Div, Mul, MulAssign, Neg, Sub};
 
 /// The type of floating-point number used to calculate the image moments.
 pub trait Scalar:
-    Copy
+    std::fmt::Debug
+    + Copy
     + PartialEq
     + PartialOrd
     + AddAssign
