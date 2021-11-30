@@ -2,10 +2,6 @@ on:
   push:
     branches:
       - master
-    paths:
-      - "src"
-      - "Cargo.toml"
-      - "tests"
   pull_request:
     branches:
       - master
