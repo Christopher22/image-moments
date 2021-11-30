@@ -1,5 +1,5 @@
 use crate::{
-    implementation::{CentralMoments, Storage},
+    implementation::{CentralMoments, NormalizedCentralMoments, Storage},
     Order, Point, Scalar,
 };
 
@@ -36,7 +36,7 @@ impl<T: Scalar, S: Storage<T>> Accumulator<T, S> {
     }
 }
 
-pub trait SealedSupportedOrder<T: Scalar>: CentralMoments<T> {
+pub trait SealedSupportedOrder<T: Scalar>: CentralMoments<T> + NormalizedCentralMoments<T> {
     /// The underlying data storage.
     type Storage: Storage<T>;
 

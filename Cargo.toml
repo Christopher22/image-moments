@@ -1,6 +1,6 @@
 [package]
 name = "image-moments"
-version = "0.4.0"
+version = "0.5.0"
 edition = "2021"
 authors = ["Christopher Gundler <christopher@gundler.de>"]
 description = "Efficient and compile-time checked calculations of contour moments"
