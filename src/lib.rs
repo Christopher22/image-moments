@@ -11,6 +11,7 @@
     unused_qualifications
 )]
 
+mod accumulator;
 mod order;
 mod primitives;
 mod storage;

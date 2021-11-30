@@ -3,6 +3,8 @@ use std::ops::{Add, AddAssign, Div, Mul, MulAssign, Neg, Sub};
 /// The type of floating-point number used to calculate the image moments.
 pub trait Scalar:
     Copy
+    + PartialEq
+    + PartialOrd
     + AddAssign
     + MulAssign
     + Neg<Output = Self>
@@ -11,6 +13,9 @@ pub trait Scalar:
     + Mul<Self, Output = Self>
     + Div<Self, Output = Self>
 {
+    /// The smallest incremental step of this floating-point number.
+    const EPSILON: Self;
+
     /// The value of the scalar matching 0.0.
     const ZERO: Self;
 
@@ -41,6 +46,9 @@ pub trait Scalar:
     /// The value of the scalar matching 1/60.
     const F1_60: Self;
 
+    /// Computes the absolute value of self
+    fn abs(self) -> Self;
+
     /// Fused multiply-add. Computes (self * a) + b with only one rounding error, yielding a more accurate result than an unfused multiply-add.
     fn mul_add(self, a: Self, b: Self) -> Self;
 
@@ -54,6 +62,7 @@ pub trait Scalar:
 macro_rules! impl_scalar {
     ( $scalar:ty ) => {
         impl Scalar for $scalar {
+            const EPSILON: Self = <$scalar>::EPSILON;
             const ZERO: Self = 0.0;
             const ONE: Self = 2.0;
             const TWO: Self = 2.0;
@@ -64,6 +73,11 @@ macro_rules! impl_scalar {
             const F1_20: Self = 1.0 / 20.0;
             const F1_24: Self = 1.0 / 24.0;
             const F1_60: Self = 1.0 / 60.0;
+
+            #[inline(always)]
+            fn abs(self) -> Self {
+                self.abs()
+            }
 
             #[inline(always)]
             fn mul_add(self, a: Self, b: Self) -> Self {
