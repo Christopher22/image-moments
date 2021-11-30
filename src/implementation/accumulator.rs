@@ -1,4 +1,7 @@
-use crate::{implementation::Storage, Order, Point, Scalar};
+use crate::{
+    implementation::{CentralMoments, Storage},
+    Order, Point, Scalar,
+};
 
 #[derive(Debug, Clone)]
 pub struct Accumulator<T: Scalar, S: Storage<T>> {
@@ -24,7 +27,7 @@ impl<T: Scalar, S: Storage<T>> Accumulator<T, S> {
 
     pub fn finalize<O: SealedSupportedOrder<T>>(mut self) -> S {
         let first_moment = self.storage.get::<0, 0>();
-        // Check wether there would be divisions (almost) by 0
+        // Check whether there would be divisions (almost) by 0
         if first_moment.abs() > T::EPSILON {
             let sign = T::ONE.copysign(first_moment);
             O::finalize(&mut self, sign);
@@ -33,11 +36,11 @@ impl<T: Scalar, S: Storage<T>> Accumulator<T, S> {
     }
 }
 
-pub trait SealedSupportedOrder<T: Scalar> {
+pub trait SealedSupportedOrder<T: Scalar>: CentralMoments<T> {
     /// The underlying data storage.
     type Storage: Storage<T>;
 
-    /// A intermediate result of the computation which is useful in subsequent computitions of higher orders.
+    /// A intermediate result of the computation which is useful in subsequent computations of higher orders.
     type IntermediateResult;
 
     /// Update the storage given the current state of the accumulator.

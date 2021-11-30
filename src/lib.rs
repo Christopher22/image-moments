@@ -11,6 +11,7 @@
     unused_qualifications
 )]
 
+mod central;
 /// The actual implementation details.
 mod implementation;
 mod index;
@@ -19,6 +20,7 @@ mod order;
 mod primitives;
 mod spatial;
 
+pub use self::central::Central;
 pub use self::index::{Index, SupportedIndex};
 pub use self::moments::Moments;
 pub use self::order::{Order, SupportedOrder};
