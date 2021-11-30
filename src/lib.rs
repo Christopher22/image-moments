@@ -17,8 +17,10 @@ mod index;
 mod moments;
 mod order;
 mod primitives;
+mod spatial;
 
 pub use self::index::{Index, SupportedIndex};
 pub use self::moments::Moments;
 pub use self::order::{Order, SupportedOrder};
 pub use self::primitives::{Point, Scalar};
+pub use self::spatial::Spatial;
