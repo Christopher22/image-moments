@@ -12,9 +12,11 @@
 )]
 
 mod accumulator;
+mod index;
 mod order;
 mod primitives;
 mod storage;
 
+pub use self::index::{Index, SupportedIndex};
 pub use self::order::{Order, SupportedOrder};
 pub use self::primitives::{Point, Scalar};
