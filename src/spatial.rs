@@ -26,16 +26,17 @@ where
     }
 }
 
-impl<'a, T: Scalar, P: 'a + Point<T>, const ORDER: usize> FromIterator<&'a P> for Spatial<T, ORDER>
+impl<T: Scalar, P: Point<T>, const ORDER: usize> FromIterator<P> for Spatial<T, ORDER>
 where
     Order<ORDER>: SupportedOrder<T>,
 {
-    fn from_iter<I: IntoIterator<Item = &'a P>>(iter: I) -> Self {
+    fn from_iter<I: IntoIterator<Item = P>>(iter: I) -> Self {
         let mut iterator = iter.into_iter();
         let (mut acc, first_point) = match iterator.next() {
             Some(point) => {
+                let first_point = point.clone();
                 let acc = Accumulator::from_point(point);
-                (acc, (*point).clone())
+                (acc, first_point)
             }
             None => return Self(<Order<ORDER> as SealedSupportedOrder<T>>::Storage::zeros()),
         };
@@ -44,7 +45,7 @@ where
         for point in iterator {
             acc.update::<Order<ORDER>, _>(point);
         }
-        acc.update::<Order<ORDER>, _>(&first_point);
+        acc.update::<Order<ORDER>, _>(first_point);
 
         // Calculate the final moments
         Self(acc.finalize::<Order<ORDER>>())
@@ -62,6 +63,13 @@ mod tests {
         let points: [(f64, f64); 0] = [];
         let moments: Spatial<f64, 3> = points.iter().collect();
         assert_abs_diff_eq!(moments.get::<0, 0>(), 0.0);
+    }
+
+    #[test]
+    fn test_by_reference_and_by_value() {
+        let points = vec![(53.0, 19.0), (52.0, 20.0), (49.0, 20.0)];
+        let _: Spatial<f64, 3> = points.iter().collect();
+        let _: Spatial<f64, 3> = points.into_iter().collect();
     }
 
     #[test]

@@ -8,7 +8,7 @@ pub struct Accumulator<T: Scalar, S: Storage<T>> {
 }
 
 impl<T: Scalar, S: Storage<T>> Accumulator<T, S> {
-    pub fn from_point<P: Point<T>>(point: &P) -> Self {
+    pub fn from_point<P: Point<T>>(point: P) -> Self {
         Accumulator {
             storage: S::zeros(),
             last_point: (point.x(), point.y()),
@@ -16,7 +16,7 @@ impl<T: Scalar, S: Storage<T>> Accumulator<T, S> {
         }
     }
 
-    pub fn update<O: SealedSupportedOrder<T>, P: Point<T>>(&mut self, point: &P) {
+    pub fn update<O: SealedSupportedOrder<T>, P: Point<T>>(&mut self, point: P) {
         self.current_point = (point.x(), point.y());
         O::update(self);
         self.last_point = self.current_point;

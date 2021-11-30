@@ -124,7 +124,31 @@ macro_rules! impl_point {
             }
         }
 
+        impl<'a> Point<$scalar> for &'a ($scalar, $scalar) {
+            #[inline(always)]
+            fn x(&self) -> $scalar {
+                self.0
+            }
+
+            #[inline(always)]
+            fn y(&self) -> $scalar {
+                self.1
+            }
+        }
+
         impl Point<$scalar> for [$scalar; 2] {
+            #[inline(always)]
+            fn x(&self) -> $scalar {
+                self[0]
+            }
+
+            #[inline(always)]
+            fn y(&self) -> $scalar {
+                self[1]
+            }
+        }
+
+        impl<'a> Point<$scalar> for &'a [$scalar; 2] {
             #[inline(always)]
             fn x(&self) -> $scalar {
                 self[0]
@@ -160,7 +184,31 @@ macro_rules! impl_point {
             }
         }
 
+        impl<'a> Point<$new_type> for &'a ($old_type, $old_type) {
+            #[inline(always)]
+            fn x(&self) -> $new_type {
+                self.0 as $new_type
+            }
+
+            #[inline(always)]
+            fn y(&self) -> $new_type {
+                self.1 as $new_type
+            }
+        }
+
         impl Point<$new_type> for [$old_type; 2] {
+            #[inline(always)]
+            fn x(&self) -> $new_type {
+                self[0] as $new_type
+            }
+
+            #[inline(always)]
+            fn y(&self) -> $new_type {
+                self[1] as $new_type
+            }
+        }
+
+        impl<'a> Point<$new_type> for &'a [$old_type; 2] {
             #[inline(always)]
             fn x(&self) -> $new_type {
                 self[0] as $new_type
