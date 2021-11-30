@@ -1,7 +1,7 @@
 use crate::Scalar;
 
 /// An efficient storage to access the required coefficients.
-pub trait Storage<T: Scalar> {
+pub trait Storage<T: Scalar>: std::fmt::Debug + Clone + PartialEq {
     /// The "order" of the storage.
     const ORDER: usize;
 
@@ -61,7 +61,7 @@ impl_storage_for_order!(3);
 
 #[cfg(test)]
 mod tests {
-    use crate::storage::{calculate_index, calculate_space, Storage};
+    use super::{calculate_index, calculate_space, Storage};
 
     #[test]
     fn test_index() {

@@ -1,4 +1,4 @@
-use crate::{storage::Storage, Order, Point, Scalar};
+use crate::{implementation::Storage, Order, Point, Scalar};
 
 #[derive(Debug, Clone)]
 pub struct Accumulator<T: Scalar, S: Storage<T>> {
@@ -50,7 +50,7 @@ pub trait SealedSupportedOrder<T: Scalar> {
 }
 
 impl<T: Scalar> SealedSupportedOrder<T> for Order<0> {
-    type Storage = [T; crate::storage::calculate_space::<0>()];
+    type Storage = [T; super::calculate_space::<0>()];
     type IntermediateResult = T;
 
     fn update<S: Storage<T>>(acc: &mut Accumulator<T, S>) -> Self::IntermediateResult {
@@ -68,7 +68,7 @@ impl<T: Scalar> SealedSupportedOrder<T> for Order<0> {
 }
 
 impl<T: Scalar> SealedSupportedOrder<T> for Order<1> {
-    type Storage = [T; crate::storage::calculate_space::<1>()];
+    type Storage = [T; super::calculate_space::<1>()];
     type IntermediateResult = (T, (T, T));
 
     fn update<S: Storage<T>>(acc: &mut Accumulator<T, S>) -> Self::IntermediateResult {
@@ -100,7 +100,7 @@ impl<T: Scalar> SealedSupportedOrder<T> for Order<1> {
 }
 
 impl<T: Scalar> SealedSupportedOrder<T> for Order<2> {
-    type Storage = [T; crate::storage::calculate_space::<2>()];
+    type Storage = [T; super::calculate_space::<2>()];
     type IntermediateResult = (T, (T, T), (T, T));
 
     fn update<S: Storage<T>>(acc: &mut Accumulator<T, S>) -> Self::IntermediateResult {
@@ -147,7 +147,7 @@ impl<T: Scalar> SealedSupportedOrder<T> for Order<2> {
 }
 
 impl<T: Scalar> SealedSupportedOrder<T> for Order<3> {
-    type Storage = [T; crate::storage::calculate_space::<3>()];
+    type Storage = [T; super::calculate_space::<3>()];
     type IntermediateResult = ();
 
     fn update<S: Storage<T>>(acc: &mut Accumulator<T, S>) -> Self::IntermediateResult {
@@ -201,8 +201,7 @@ mod tests {
     use approx::assert_abs_diff_eq;
 
     use crate::{
-        accumulator::{Accumulator, SealedSupportedOrder},
-        storage::Storage,
+        implementation::{Accumulator, SealedSupportedOrder, Storage},
         Order,
     };
 

@@ -1,4 +1,4 @@
-use crate::{accumulator::SealedSupportedOrder, Scalar};
+use crate::{implementation::SealedSupportedOrder, Scalar};
 
 /// An order of image moments specified at compile time.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]

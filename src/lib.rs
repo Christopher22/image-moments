@@ -11,11 +11,11 @@
     unused_qualifications
 )]
 
-mod accumulator;
+/// The actual implementation details.
+mod implementation;
 mod index;
 mod order;
 mod primitives;
-mod storage;
 
 pub use self::index::{Index, SupportedIndex};
 pub use self::order::{Order, SupportedOrder};
