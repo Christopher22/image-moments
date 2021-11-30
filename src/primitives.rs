@@ -103,7 +103,7 @@ impl_scalar!(f64);
 
 /// A generalization over different possible representations of points.
 /// Implementing this trait on custom structs ensure their seamless usage with this crate.
-pub trait Point<S: Scalar> {
+pub trait Point<S: Scalar>: Clone {
     /// The x position of the point casted into the required resolution.
     fn x(&self) -> S;
     /// The y position of the point casted into the required resolution.

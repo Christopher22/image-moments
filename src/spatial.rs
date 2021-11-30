@@ -35,7 +35,7 @@ where
         let (mut acc, first_point) = match iterator.next() {
             Some(point) => {
                 let acc = Accumulator::from_point(point);
-                (acc, point.clone())
+                (acc, (*point).clone())
             }
             None => return Self(<Order<ORDER> as SealedSupportedOrder<T>>::Storage::zeros()),
         };
@@ -44,7 +44,7 @@ where
         for point in iterator {
             acc.update::<Order<ORDER>, _>(point);
         }
-        acc.update::<Order<ORDER>, _>(first_point);
+        acc.update::<Order<ORDER>, _>(&first_point);
 
         // Calculate the final moments
         Self(acc.finalize::<Order<ORDER>>())
