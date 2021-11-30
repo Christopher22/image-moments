@@ -1,4 +1,4 @@
-use crate::{Order, Point, Scalar, Storage};
+use crate::{storage::Storage, Order, Point, Scalar};
 
 #[derive(Debug, Clone)]
 pub struct Accumulator<T: Scalar, S: Storage<T>> {
@@ -202,7 +202,8 @@ mod tests {
 
     use crate::{
         accumulator::{Accumulator, SealedSupportedOrder},
-        Order, Storage,
+        storage::Storage,
+        Order,
     };
 
     #[test]

@@ -18,4 +18,3 @@ mod storage;
 
 pub use self::order::{Order, SupportedOrder};
 pub use self::primitives::{Point, Scalar};
-pub use self::storage::Storage;
