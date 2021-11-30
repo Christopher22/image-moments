@@ -3,8 +3,12 @@ name = "image-moments"
 version = "0.3.0"
 edition = "2021"
 authors = ["Christopher Gundler <christopher@gundler.de>"]
-description = "Efficient and compile-time checked calculations of image moments"
+description = "Efficient and compile-time checked calculations of contour moments"
 license = "MIT OR Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/Christopher22/image-moments"
+homepage = "https://github.com/Christopher22/image-moments"
+categories = ["multimedia::images"]
 
 [dependencies]
 
