@@ -58,6 +58,9 @@ pub trait Scalar:
 
     /// Returns a number composed of the magnitude of self and the sign of sign.
     fn copysign(self, sign: Self) -> Self;
+
+    /// Calculate the square root.
+    fn sqrt(self) -> Self;
 }
 
 macro_rules! impl_scalar {
@@ -65,7 +68,7 @@ macro_rules! impl_scalar {
         impl Scalar for $scalar {
             const EPSILON: Self = <$scalar>::EPSILON;
             const ZERO: Self = 0.0;
-            const ONE: Self = 2.0;
+            const ONE: Self = 1.0;
             const TWO: Self = 2.0;
             const THREE: Self = 3.0;
             const F1_2: Self = 1.0 / 2.0;
@@ -93,6 +96,11 @@ macro_rules! impl_scalar {
             #[inline(always)]
             fn copysign(self, sign: Self) -> Self {
                 self.copysign(sign)
+            }
+
+            #[inline(always)]
+            fn sqrt(self) -> Self {
+                self.sqrt()
             }
         }
     };
