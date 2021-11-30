@@ -8,6 +8,7 @@ license = "MIT OR Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/Christopher22/image-moments"
 homepage = "https://github.com/Christopher22/image-moments"
+documentation = "https://christopher22.github.io/image-moments/image_moments/index.html"
 categories = ["multimedia::images"]
 
 [dependencies]
