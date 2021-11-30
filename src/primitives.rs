@@ -104,9 +104,9 @@ impl_scalar!(f64);
 /// A generalization over different possible representations of points.
 /// Implementing this trait on custom structs ensure their seamless usage with this crate.
 pub trait Point<S: Scalar> {
-    /// The x position of the point.
+    /// The x position of the point casted into the required resolution.
     fn x(&self) -> S;
-    /// The y position of the point.
+    /// The y position of the point casted into the required resolution.
     fn y(&self) -> S;
 }
 
@@ -133,6 +133,42 @@ macro_rules! impl_point {
             #[inline(always)]
             fn y(&self) -> $scalar {
                 self[1]
+            }
+        }
+
+        impl_point!(i8 as $scalar);
+        impl_point!(u8 as $scalar);
+        impl_point!(i16 as $scalar);
+        impl_point!(u16 as $scalar);
+        impl_point!(i32 as $scalar);
+        impl_point!(u32 as $scalar);
+        impl_point!(i64 as $scalar);
+        impl_point!(u64 as $scalar);
+        impl_point!(isize as $scalar);
+        impl_point!(usize as $scalar);
+    };
+    ( $old_type:ty as $new_type:ty ) => {
+        impl Point<$new_type> for ($old_type, $old_type) {
+            #[inline(always)]
+            fn x(&self) -> $new_type {
+                self.0 as $new_type
+            }
+
+            #[inline(always)]
+            fn y(&self) -> $new_type {
+                self.1 as $new_type
+            }
+        }
+
+        impl Point<$new_type> for [$old_type; 2] {
+            #[inline(always)]
+            fn x(&self) -> $new_type {
+                self[0] as $new_type
+            }
+
+            #[inline(always)]
+            fn y(&self) -> $new_type {
+                self[1] as $new_type
             }
         }
     };
